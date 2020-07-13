@@ -15,7 +15,7 @@ public class UniqeWordCountTest {
 
         Record textRecord = new TextFileRecord("D:\\Zone24x7\\Java_Task1\\src\\main\\resources\\Java Task 01.txt");
         Counter wordCount = new UniqeWordCount(textRecord);
-        assertThat(wordCount.getWordCount(),is(111));
+        assertThat(wordCount.getWordCount(),is(107));
 
 
     }

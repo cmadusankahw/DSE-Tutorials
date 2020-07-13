@@ -27,6 +27,7 @@ public class UniqeWordCount implements Counter {
             while (line != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
+                    word=word.replaceAll("[,()\"\"]","").replaceAll("\\[\\d+\\]","").toLowerCase();
                     wordList.add(word);
                 }
                 line = bufferedReader.readLine();

@@ -31,6 +31,9 @@ public class OccurencesOfWords {
             while (line != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
+
+//                   Remove Invalid characters and Numbers
+                    word=word.replaceAll("[,()\"\"]","").replaceAll("\\[\\d+\\]","").toLowerCase();
                     wordList.add(word);
                 }
                 line = bufferedReader.readLine();
