@@ -16,7 +16,8 @@ public class WordCount implements Counter{
     }
 
     public int getWordCount() {
-        int count = 0;
+
+        ArrayList <String>wordList=new ArrayList();
 
 //        Read each lines of the text File and split words and increase count variable
         try {
@@ -27,7 +28,8 @@ public class WordCount implements Counter{
             while (line != null) {
                 String[] words = line.split(" ");
                 for (String word : words) {
-                    count++;
+                    word=word.replaceAll("[,()\"\"]","").replaceAll("\\[\\d+\\]","").toLowerCase();
+                    wordList.add(word);
                 }
                 line = bufferedReader.readLine();
             }
@@ -35,7 +37,7 @@ public class WordCount implements Counter{
         }catch (IOException e){
 
         }
-        return count;
+        return wordList.size();
     }
 
 
