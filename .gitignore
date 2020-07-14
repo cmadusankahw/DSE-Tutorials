@@ -1,0 +1,9 @@
+*.class
+
+
+.cache/
+.history/
+.lib/
+project/plugins/project/
+
+.scala_dependencies
