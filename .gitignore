@@ -13,3 +13,11 @@
  
 # Maven
 target/
+
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+ENV/
