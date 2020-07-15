@@ -11,7 +11,7 @@ object App extends App {
   var lines= io.Source.fromFile("D:\\Zone24x7\\Scala_Task2\\src\\main\\scala\\inputs\\airports.text").getLines().toList
 
 
-  val countOfAirportsInIreLand=getCountOfAirportsInIreLand();
+  val countOfAirportsInIreLand=findAllTheAirportsInGivenCountry("\"Ireland\"").size;
   println(s"countOfAirportsInIreLand: $countOfAirportsInIreLand")
 
   val countLatitudeGreaterThan40=getCountLatitudeGreaterThan40().size
@@ -29,7 +29,7 @@ object App extends App {
   val fileAirportsInUSA=new File("D:\\Zone24x7\\Scala_Task2\\src\\main\\scala\\outputs\\airports_in_usa.text")
   bw=new BufferedWriter(new FileWriter(fileAirportsInUSA))
 
-  for((airport,city)<-findAllTheAirportsInUSA()){
+  for((airport,city)<-findAllTheAirportsInGivenCountry("\"United States\"")){
     bw.write(airport+"\t\t"+city+"\n")
   }
 
@@ -38,19 +38,23 @@ object App extends App {
   groupAirportsByCountry().foreach(println)
 
 
-  def getCountOfAirportsInIreLand():Int={
 
-  var count:Int=0
-    for (line <- lines) {
-      val cols= line.split(",").map(_.trim)
 
-      if(cols(3).equals("\"Ireland\"")) count+=1
 
-    }
-
-    return count
-
-  }
+//  def getCountOfAirportsInIreLand():Int={
+//
+//  var count:Int=0
+//    for (line <- lines) {
+//      val cols= line.split(",").map(_.trim)
+//      if(cols(3).equals("\"Ireland\"")) count+=1
+//
+//    }
+//
+//
+//
+//    return count
+//
+//  }
 
   def getCountLatitudeGreaterThan40():HashMap[String,Double]={
 
@@ -74,13 +78,13 @@ object App extends App {
 
   }
 
-  def findAllTheAirportsInUSA():HashMap[String,String]={
+  def findAllTheAirportsInGivenCountry(country:String):HashMap[String,String]={
 
     var countryMap=new HashMap[String,String];
     for (line <- lines) {
       val cols = line.split(",").map(_.trim)
 
-      if(cols(3)=="\"United States\"") {
+      if(cols(3)==country) {
         cols(2)=cols(2).replaceAll("[^A-Za-z]+", "")
         cols(1)=cols(1).replaceAll("[^A-Za-z]+", "")
 
