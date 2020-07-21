@@ -4,6 +4,8 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.{DataFrame, SQLContext, SparkSession}
 import org.apache.spark.sql.types.{IntegerType, StructType}
 import org.apache.spark.sql.functions._
+import java.io
+import java.io.{File, PrintWriter}
 
 
 object Task2 extends App {
@@ -26,13 +28,13 @@ object Task2 extends App {
 
   dfFirstNames.show()
 
-  var FirstNames= dfFirstNames.select(split(col("values")," ").getItem(0).as("FirstName"),
+  var firstNames= dfFirstNames.select(split(col("values")," ").getItem(0).as("FirstName"),
     split(col("values")," ").getItem(1).as("id")
   )
 
-  FirstNames= FirstNames.withColumn("id",col("id").cast(IntegerType))
-  FirstNames.printSchema()
-  FirstNames.show(false)
+  firstNames= firstNames.withColumn("id",col("id").cast(IntegerType))
+  firstNames.printSchema()
+  firstNames.show(false)
 
   val rddLastNamesFromFile= spark.sparkContext.textFile("/home/yasasm/Desktop/ZoneProjects/spark-tasks/src/main/inputs/lastNames")
 
@@ -40,37 +42,39 @@ object Task2 extends App {
 
   dfLastNames.show()
 
-  var LastNames= dfLastNames.select(split(col("values")," ").getItem(0).as("id"),
+  var lastNames= dfLastNames.select(split(col("values")," ").getItem(0).as("id"),
     split(col("values")," ").getItem(1).as("LastName")
   ).drop("values")
 
-  LastNames = LastNames.withColumn("id",col("id").cast(IntegerType))
+  lastNames = lastNames.withColumn("id",col("id").cast(IntegerType))
 
+  lastNames.printSchema()
+  lastNames.show()
 
-  LastNames.printSchema()
-  LastNames.show()
-
-  var names= LastNames.join(FirstNames,Seq("id")).where(LastNames("id")===FirstNames("id"))
+  var names= lastNames.join(firstNames,Seq("id")).where(lastNames("id")===firstNames("id"))
 
   names.show()
 
-  names.rdd.map(x => x.mkString("|")).saveAsTextFile("names.txt")
+//  names.rdd.map(x => x.mkString("|")).saveAsTextFile("names.txt")
 
 //  val output= names.rdd.map(_.toString()).saveAsTextFile("/home/yasasm/Desktop/ZoneProjects/names.txt")
 
 
+//////////////////////////////////  Using SQL Statements ///////////////////////////////////
+
+  var firstNameTable = firstNames.registerTempTable("firstNameTable")
+  var lastNameTable = lastNames.registerTempTable("lastNameTable")
+
+  var fullNames = sqlContext.sql("SELECT f.id,f.FirstName,l.LastName FROM firstNameTable as f INNER JOIN lastNameTable as l on l.id = f.id");
+  fullNames.collect().foreach(println)
 
 
+  val pw = new PrintWriter(new File("fullnames.txt"))
+
+  fullNames.collect().foreach(
+    row=>(row.toSeq.foreach(col=>pw.write(s"$col ")),pw.write("\n"))
+  )
+
+  }
 
 
-
-
-
-
-
-
-
-
-
-
-}
