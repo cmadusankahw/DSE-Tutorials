@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'scala'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    dependencies {
+        extraLibs group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
+        extraLibs 'org.apache.spark:spark-sql_2.11:2.1.0'
+        extraLibs 'org.apache.spark:spark-core_2.11:2.1.0'
+        configurations.compile.extendsFrom(configurations.extraLibs)
+
+        // https://mvnrepository.com/artifact/org.scala-lang/scala-library
+
+//        compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
+//        compile 'org.apache.spark:spark-sql_2.11:2.1.0'
+//        compile 'org.apache.spark:spark-core_2.11:2.1.0'
+    }
+}
+
+jar {
+    from {
+        configurations.extaLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
