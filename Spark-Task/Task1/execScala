@@ -1,0 +1,14 @@
+#!/bin/bash
+
+read -p "Input File Path : " path
+
+if test -z "$path"
+then 
+	echo "Path is Empty"
+else
+	scalac $path
+	f="$(basename -- $path)"
+	filename="${f%.*}"
+	scala $filename
+
+fi
