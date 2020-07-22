@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+
+
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.8'
+    compile 'org.apache.spark:spark-sql_2.11:2.1.0'
+    compile 'org.apache.spark:spark-core_2.11:2.1.0'
+
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task customFatJar(type: Jar) {
+
+    zip64=true
+
+    manifest {
+        attributes 'Main-Class': 'spark-azkaban'
+    }
+    baseName = 'dependency-jar'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+jar {
+    zip64=true
+
+    manifest {
+        attributes "Main-Class": "spark-azkaban"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
