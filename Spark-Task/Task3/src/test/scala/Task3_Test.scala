@@ -4,7 +4,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{DataFrame, Row, SQLContext}
 import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FlatSpec}
 
-class Test_Task3 extends FlatSpec with BeforeAndAfterAll with BeforeAndAfterEach{
+class Task3_Test extends FlatSpec with BeforeAndAfterAll with BeforeAndAfterEach{
 
   var sc:SparkContext=_
   var sqlContext:SQLContext=_

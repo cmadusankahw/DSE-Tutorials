@@ -5,7 +5,7 @@ import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructT
 
 object Task3 extends App{
 
-  val sc = new SparkContext("local[*]","Task2")
+  val sc = new SparkContext("local[*]","Task3")
   val sqlContext = new SQLContext(sc)
 
   val schema = List(
@@ -32,4 +32,5 @@ object Task3 extends App{
     var count = df.groupBy("ProductId").count().select("ProductId","count").orderBy(col("count").desc).limit(5)
     return count
   }
+
 }

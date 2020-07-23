@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+      <head>
+        <title>ScalaTest Suite SampleTest Results</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Expires" content="-1"/>
+        <meta http-equiv="Pragma" content="no-cache"/>
+        <link href="css/styles.css" rel="stylesheet"/>
+        
+        <script type="text/javascript">
+          function toggleDetails(contentId, linkId) {
+  var ele = document.getElementById(contentId);
+  var text = document.getElementById(linkId);
+  if(ele.style.display == "block") {
+    ele.style.display = "none";
+    text.innerHTML = "(Show Details)";
+  }
+  else {
+    ele.style.display = "block";
+    text.innerHTML = "(Hide Details)";
+  }
+}
+function hideOpenInNewTabIfRequired() {
+  if (top === self) { document.getElementById('printlink').style.display = 'none'; }
+}
+
+        </script>
+      </head>
+      <body class="specification">
+        <div id="suite_header_name">SampleTest</div>
+        <div id="suite_header_statistic_failed">
+          Tests: total 3, succeeded 0, failed 3, canceled 0, ignored 0, pending 0
+        </div>
+        <div id="c4f108ed-a3ae-423c-b8f3-4728083854e6" class="scope" style="margin-left: 0px;">
+      com.starter
+    </div><div id="21e1399c-3a36-451f-993d-bd826b2d7664" class="test_failed" style="margin-left: 0px;">
+      <dl>
+        <dt>should run a sample test *** FAILED ***</dt>
+      </dl>
+      <div class="detailstoggle">
+      <a id="bc8034ec-9b30-4b8a-8ef8-582c2a752b3c" href="javascript:toggleDetails('98fa2a4e-3f95-47b4-b688-3a6340fa8892', 'bc8034ec-9b30-4b8a-8ef8-582c2a752b3c');">(Show Details)</a>
+      </div>
+      <div id="98fa2a4e-3f95-47b4-b688-3a6340fa8892" style="display: none">
+        <table>
+          <tr valign="top">
+              <td align="left"><span class="label">Message:</span></td>
+              <td align="left"><span>org.scalatest.exceptions.TestFailedException was thrown.</span></td>
+            </tr>
+          <tr valign="top"><td align="left"><span class="label">Line:</span></td><td align="left"><span>(SampleTest.scala:6)</span></td></tr>
+          <tr valign="top"><td align="right"><span class="label">Exception:</span></td><td align="left">org.scalatest.exceptions.TestFailedException</td></tr>
+        </table>
+        <table>
+          <tr valign="top"><td align="left" colspan="2">
+            <div class="gray">org.scalatest.Assertions.newAssertionFailedException(Assertions.scala:528)</div><div class="gray">org.scalatest.Assertions.newAssertionFailedException$(Assertions.scala:527)</div><div class="gray">org.scalatest.FlatSpec.newAssertionFailedException(FlatSpec.scala:1685)</div><div class="gray">org.scalatest.Assertions$AssertionsHelper.macroAssert(Assertions.scala:501)</div>
+            <div>SampleTest.$anonfun$new$1(SampleTest.scala:6)</div><div>org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)</div><div>org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)</div><div>org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)</div><div>org.scalatest.Transformer.apply(Transformer.scala:22)</div><div>org.scalatest.Transformer.apply(Transformer.scala:20)</div><div>org.scalatest.FlatSpecLike$$anon$1.apply(FlatSpecLike.scala:1682)</div><div>org.scalatest.TestSuite.withFixture(TestSuite.scala:196)</div><div>org.scalatest.TestSuite.withFixture$(TestSuite.scala:195)</div><div>org.scalatest.FlatSpec.withFixture(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.invokeWithFixture$1(FlatSpecLike.scala:1680)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTest$1(FlatSpecLike.scala:1692)</div><div>org.scalatest.SuperEngine.runTestImpl(Engine.scala:289)</div><div>org.scalatest.FlatSpecLike.runTest(FlatSpecLike.scala:1692)</div><div>org.scalatest.FlatSpecLike.runTest$(FlatSpecLike.scala:1674)</div><div>org.scalatest.FlatSpec.runTest(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTests$1(FlatSpecLike.scala:1750)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:396)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:373)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:410)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:379)</div><div>org.scalatest.SuperEngine.runTestsImpl(Engine.scala:461)</div><div>org.scalatest.FlatSpecLike.runTests(FlatSpecLike.scala:1750)</div><div>org.scalatest.FlatSpecLike.runTests$(FlatSpecLike.scala:1749)</div><div>org.scalatest.FlatSpec.runTests(FlatSpec.scala:1685)</div><div>org.scalatest.Suite.run(Suite.scala:1147)</div><div>org.scalatest.Suite.run$(Suite.scala:1129)</div><div>org.scalatest.FlatSpec.org$scalatest$FlatSpecLike$$super$run(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$run$1(FlatSpecLike.scala:1795)</div><div>org.scalatest.SuperEngine.runImpl(Engine.scala:521)</div><div>org.scalatest.FlatSpecLike.run(FlatSpecLike.scala:1795)</div><div>org.scalatest.FlatSpecLike.run$(FlatSpecLike.scala:1793)</div><div>org.scalatest.FlatSpec.run(FlatSpec.scala:1685)</div><div>org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:45)</div><div>java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</div><div>java.util.concurrent.FutureTask.run(FutureTask.java:266)</div><div>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</div><div>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</div><div>java.lang.Thread.run(Thread.java:748)</div>
+            </td>
+          </tr>
+        </table>
+        
+      </div>
+    </div><div id="7e67f72d-fedd-4aae-9e79-9b3e37e5c9fd" class="scope" style="margin-left: 0px;">
+      com.starterljkl
+    </div><div id="64aa9054-4c47-4c4c-9b06-90272dcb1d20" class="test_failed" style="margin-left: 0px;">
+      <dl>
+        <dt>should run a sample test *** FAILED ***</dt>
+      </dl>
+      <div class="detailstoggle">
+      <a id="5606155e-2c55-471c-8b34-e2c952109993" href="javascript:toggleDetails('8dffbebb-bb26-4945-9e15-c6cf8916942f', '5606155e-2c55-471c-8b34-e2c952109993');">(Show Details)</a>
+      </div>
+      <div id="8dffbebb-bb26-4945-9e15-c6cf8916942f" style="display: none">
+        <table>
+          <tr valign="top">
+              <td align="left"><span class="label">Message:</span></td>
+              <td align="left"><span>java.lang.NullPointerException was thrown.</span></td>
+            </tr>
+          
+          <tr valign="top"><td align="right"><span class="label">Exception:</span></td><td align="left">java.lang.NullPointerException</td></tr>
+        </table>
+        <table>
+          <tr valign="top"><td align="left" colspan="2">
+            
+            <div>Task1$.countClicksPerGivenSingleMethod(Task1.scala:15)</div><div>SampleTest.$anonfun$new$2(SampleTest.scala:10)</div><div>org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)</div><div>org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)</div><div>org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)</div><div>org.scalatest.Transformer.apply(Transformer.scala:22)</div><div>org.scalatest.Transformer.apply(Transformer.scala:20)</div><div>org.scalatest.FlatSpecLike$$anon$1.apply(FlatSpecLike.scala:1682)</div><div>org.scalatest.TestSuite.withFixture(TestSuite.scala:196)</div><div>org.scalatest.TestSuite.withFixture$(TestSuite.scala:195)</div><div>org.scalatest.FlatSpec.withFixture(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.invokeWithFixture$1(FlatSpecLike.scala:1680)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTest$1(FlatSpecLike.scala:1692)</div><div>org.scalatest.SuperEngine.runTestImpl(Engine.scala:289)</div><div>org.scalatest.FlatSpecLike.runTest(FlatSpecLike.scala:1692)</div><div>org.scalatest.FlatSpecLike.runTest$(FlatSpecLike.scala:1674)</div><div>org.scalatest.FlatSpec.runTest(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTests$1(FlatSpecLike.scala:1750)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:396)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:373)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:410)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:379)</div><div>org.scalatest.SuperEngine.runTestsImpl(Engine.scala:461)</div><div>org.scalatest.FlatSpecLike.runTests(FlatSpecLike.scala:1750)</div><div>org.scalatest.FlatSpecLike.runTests$(FlatSpecLike.scala:1749)</div><div>org.scalatest.FlatSpec.runTests(FlatSpec.scala:1685)</div><div>org.scalatest.Suite.run(Suite.scala:1147)</div><div>org.scalatest.Suite.run$(Suite.scala:1129)</div><div>org.scalatest.FlatSpec.org$scalatest$FlatSpecLike$$super$run(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$run$1(FlatSpecLike.scala:1795)</div><div>org.scalatest.SuperEngine.runImpl(Engine.scala:521)</div><div>org.scalatest.FlatSpecLike.run(FlatSpecLike.scala:1795)</div><div>org.scalatest.FlatSpecLike.run$(FlatSpecLike.scala:1793)</div><div>org.scalatest.FlatSpec.run(FlatSpec.scala:1685)</div><div>org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:45)</div><div>java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</div><div>java.util.concurrent.FutureTask.run(FutureTask.java:266)</div><div>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</div><div>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</div><div>java.lang.Thread.run(Thread.java:748)</div>
+            </td>
+          </tr>
+        </table>
+        
+      </div>
+    </div><div id="58c26384-3fc8-4a6d-aea8-f0122d7fc370" class="scope" style="margin-left: 0px;">
+      When Count Clicks for both product and webStore it 
+    </div><div id="deb0bcaa-6a3b-467c-859b-f9b24e1665f7" class="test_failed" style="margin-left: 0px;">
+      <dl>
+        <dt>should Return 3 *** FAILED ***</dt>
+      </dl>
+      <div class="detailstoggle">
+      <a id="98bd0b9c-abda-4456-9a34-cabd54cc84dd" href="javascript:toggleDetails('ee3f01a8-2de6-4b1b-85d7-051fec0b3a0f', '98bd0b9c-abda-4456-9a34-cabd54cc84dd');">(Show Details)</a>
+      </div>
+      <div id="ee3f01a8-2de6-4b1b-85d7-051fec0b3a0f" style="display: none">
+        <table>
+          <tr valign="top">
+              <td align="left"><span class="label">Message:</span></td>
+              <td align="left"><span>java.lang.NullPointerException was thrown.</span></td>
+            </tr>
+          
+          <tr valign="top"><td align="right"><span class="label">Exception:</span></td><td align="left">java.lang.NullPointerException</td></tr>
+        </table>
+        <table>
+          <tr valign="top"><td align="left" colspan="2">
+            
+            <div>Task1$.countClicksPerGivenAnyMultipleMethods(Task1.scala:32)</div><div>SampleTest.$anonfun$new$3(SampleTest.scala:16)</div><div>org.scalatest.OutcomeOf.outcomeOf(OutcomeOf.scala:85)</div><div>org.scalatest.OutcomeOf.outcomeOf$(OutcomeOf.scala:83)</div><div>org.scalatest.OutcomeOf$.outcomeOf(OutcomeOf.scala:104)</div><div>org.scalatest.Transformer.apply(Transformer.scala:22)</div><div>org.scalatest.Transformer.apply(Transformer.scala:20)</div><div>org.scalatest.FlatSpecLike$$anon$1.apply(FlatSpecLike.scala:1682)</div><div>org.scalatest.TestSuite.withFixture(TestSuite.scala:196)</div><div>org.scalatest.TestSuite.withFixture$(TestSuite.scala:195)</div><div>org.scalatest.FlatSpec.withFixture(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.invokeWithFixture$1(FlatSpecLike.scala:1680)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTest$1(FlatSpecLike.scala:1692)</div><div>org.scalatest.SuperEngine.runTestImpl(Engine.scala:289)</div><div>org.scalatest.FlatSpecLike.runTest(FlatSpecLike.scala:1692)</div><div>org.scalatest.FlatSpecLike.runTest$(FlatSpecLike.scala:1674)</div><div>org.scalatest.FlatSpec.runTest(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$runTests$1(FlatSpecLike.scala:1750)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:396)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:373)</div><div>org.scalatest.SuperEngine.$anonfun$runTestsInBranch$1(Engine.scala:410)</div><div>scala.collection.immutable.List.foreach(List.scala:392)</div><div>org.scalatest.SuperEngine.traverseSubNodes$1(Engine.scala:384)</div><div>org.scalatest.SuperEngine.runTestsInBranch(Engine.scala:379)</div><div>org.scalatest.SuperEngine.runTestsImpl(Engine.scala:461)</div><div>org.scalatest.FlatSpecLike.runTests(FlatSpecLike.scala:1750)</div><div>org.scalatest.FlatSpecLike.runTests$(FlatSpecLike.scala:1749)</div><div>org.scalatest.FlatSpec.runTests(FlatSpec.scala:1685)</div><div>org.scalatest.Suite.run(Suite.scala:1147)</div><div>org.scalatest.Suite.run$(Suite.scala:1129)</div><div>org.scalatest.FlatSpec.org$scalatest$FlatSpecLike$$super$run(FlatSpec.scala:1685)</div><div>org.scalatest.FlatSpecLike.$anonfun$run$1(FlatSpecLike.scala:1795)</div><div>org.scalatest.SuperEngine.runImpl(Engine.scala:521)</div><div>org.scalatest.FlatSpecLike.run(FlatSpecLike.scala:1795)</div><div>org.scalatest.FlatSpecLike.run$(FlatSpecLike.scala:1793)</div><div>org.scalatest.FlatSpec.run(FlatSpec.scala:1685)</div><div>org.scalatest.tools.SuiteRunner.run(SuiteRunner.scala:45)</div><div>java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)</div><div>java.util.concurrent.FutureTask.run(FutureTask.java:266)</div><div>java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</div><div>java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</div><div>java.lang.Thread.run(Thread.java:748)</div>
+            </td>
+          </tr>
+        </table>
+        
+      </div>
+    </div>
+        <table id="suite_footer">
+          <tr id="suite_footer_id">
+            <td id="suite_footer_id_label_failed">Suite ID</td>
+            <td id="suite_footer_id_value" colspan="5">SampleTest</td>
+          </tr>
+          <tr id="suite_footer_class">
+            <td id="suite_footer_class_label_failed">Class name</td>
+            <td id="suite_footer_class_value" colspan="5">SampleTest</td>
+          </tr>
+          <tr id="suite_footer_duration">
+            <td id="suite_footer_duration_label_failed">Total duration</td>
+            <td id="suite_footer_duration_value" colspan="2">
+              56 milliseconds
+              </td>
+          </tr>
+        </table>
+           <div id="printlink">(<a href="SampleTest.html" target="_blank">Open SampleTest in new tab</a>)</div>
+      </body>
+      <script type="text/javascript">
+        hideOpenInNewTabIfRequired();
+      </script>
+    </html>
