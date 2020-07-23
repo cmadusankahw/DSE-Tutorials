@@ -41,7 +41,7 @@ class Task_Test {
     )
 
     val expectedSchema = List(
-      StructField("name",IntegerType, true)
+      StructField("Total Number of Athletes",IntegerType, true)
     )
 
     val expectedDF = sqlContext.createDataFrame(
@@ -50,6 +50,14 @@ class Task_Test {
     )
     Assertions.assertEquals(expectedDF.collect().toSeq,Task.getTotalNumberOfAthletes(df).collect().toSeq)
 
+  }
+
+  @Test
+  def testTotalNumberOfAtheletes_when_UsingSQLScripts={
+    var tableDf = df.registerTempTable("tableDf")
+
+    var totalNumberOfAthletes = sqlContext.sql("SELECT COUNT(DISTINCT(ID)) FROM tableDf").alias("Total Number of Athletes")
+    Assertions.assertEquals(totalNumberOfAthletes.collect().toSeq,Task.getTotalNumberOfAthletes(df).collect().toSeq)
   }
 
   @Test
@@ -75,6 +83,13 @@ class Task_Test {
   }
 
   @Test
+  def testGoldMedalWinners_when_UsingSQLScript()={
+    var tableDf = df.registerTempTable("tableDf")
+    var goldMedalWinners = sqlContext.sql("SELECT ID,Name,Medal FROM tableDf  WHERE Medal LIKE 'Gold' ORDER BY ID asc limit 2")
+    Assertions.assertEquals(goldMedalWinners.collect().toSeq,Task.getGoldMedalWinners(df).take(2).toSeq)
+  }
+
+  @Test
   def testCountryWithMaxGoldMedalsWithYear_when_GiveAValidDataFrame()={
 
     val expectedData=Seq(
@@ -93,6 +108,13 @@ class Task_Test {
     )
 
     Assertions.assertEquals(expectedDF.collect().toSeq,Task.getCountryWithMAxGoldMedals(df).collect().toSeq)
+  }
+
+  @Test
+  def testCountryWithMaxGoldMedals_when_UsingSQLScript()={
+    var tableDf = df.registerTempTable("tableDf")
+    var countriesWithMaxGoldMedals = sqlContext.sql("SELECT Team,Year,COUNT(Team) as count FROM tableDf GROUP BY Year,Team,Medal HAVING COUNT(Team)=(SELECT MAX(mycount) FROM ( SELECT Team,Year, COUNT(team) mycount FROM tableDf WHERE Medal Like 'Gold' GROUP BY Team,Year,Medal))")
+    Assertions.assertEquals(countriesWithMaxGoldMedals.collect().toSeq,Task.getCountryWithMAxGoldMedals(df).collect().toSeq)
   }
 
    @Test
@@ -117,6 +139,13 @@ class Task_Test {
    }
 
   @Test
+  def testAverageHeightOfMen_when_UsingSQLScript()={
+    var tableDf = df.registerTempTable("tableDf")
+    var averageHeightOfMen = sqlContext.sql("SELECT Sex,avg(Height) FROM tableDf WHERE Sex LIKE 'M' GROUP BY Sex")
+    Assertions.assertEquals(averageHeightOfMen.collect().toSeq,Task.getAverageHeightOfMen(df).collect().toSeq)
+  }
+
+  @Test
   def testAverageWeightOfWomen_when_GiveAValidDataFrame()={
 
     val expectedData=Seq(
@@ -134,8 +163,15 @@ class Task_Test {
     )
 
     Assertions.assertEquals(expectedDF.collect().toSeq,Task.getAverageWeightOfWomen(df).collect().toSeq)
-
   }
+
+  @Test
+  def testAverageWeightOfWomen_when_UsingSQLScript()={
+    var tableDf = df.registerTempTable("tableDf")
+    var averageWeightOFWomen = sqlContext.sql("SELECT Sex,avg(Weight) FROM tableDf WHERE Sex LIKE 'F' GROUP BY Sex")
+    Assertions.assertEquals(averageWeightOFWomen.collect().toSeq,Task.getAverageWeightOfWomen(df).collect().toSeq)
+  }
+
 
   @Test
   def testRatioOfTheAttendance_when_GiveAValiddataFrame()={
@@ -186,7 +222,13 @@ class Task_Test {
 
   }
 
+  @Test
+  def testPopularGame_when_UseSQLScript()={
+    var tableDf = df.registerTempTable("tableDf")
+    var popularSport = sqlContext.sql("SELECT Sport,count(Sport) as count FROM tableDf GROUP BY Sport ORDER BY count desc LIMIT 2")
+    Assertions.assertEquals(popularSport.collect().toSeq,Task.getMostPopularGame(df).collect().toSeq)
 
+  }
 
 }
 
