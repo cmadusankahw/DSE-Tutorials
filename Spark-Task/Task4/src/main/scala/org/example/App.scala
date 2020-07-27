@@ -126,7 +126,6 @@ def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
 
   def maxSalaryAgeGroup(df:DataFrame)={
     var table = df.registerTempTable("table")
-
     var max= df.groupBy("age").max("salary")
     max.show()
   }
@@ -138,6 +137,37 @@ def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
     df2.show()
   }
 
+  def getAverageSalaryByGender(df:DataFrame)={
+
+    var averageSal = df.groupBy("gender").avg("salary")
+    averageSal.show()
+  }
+
+  def getRatioSalaryByGender(df:DataFrame)={
+    var averageSalMen = df.groupBy("gender").avg("salary").where(col("gender")==="Male")
+    var averageSalWomen = df.groupBy("gender").avg("salary").where(col("gender")==="Female")
+
+    averageSalMen = averageSalMen.withColumnRenamed("gender","male")
+        .withColumnRenamed("avg(salary)","MenSal")
+        .withColumn("id",lit("1"))
+
+    averageSalWomen=averageSalWomen.withColumnRenamed("gender","female")
+      .withColumnRenamed("avg(salary)","FemaleSal")
+        .withColumn("id",lit("1"))
+
+    var joinedDf= averageSalMen.join(averageSalWomen,"id")
+    var ratio = joinedDf.withColumn("Ratio",col("MenSal")/col("FemaleSal"))
+    ratio.show()
+  }
+
+  def ratioBetweenGivenColumnMinaAndMx(df:DataFrame,colName:String)={
+    var maxDf= df.select(max(colName)).withColumn("id",lit("1"))
+    var minDf = df.select(min(colName)).withColumn("id",lit("1"))
+
+    var ratio=maxDf.join(minDf,"id").withColumn("Ratio",col(s"max($colName)")-col(s"min($colName)"))
+    ratio.show()
+
+  }
 }
 
 
