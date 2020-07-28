@@ -49,11 +49,11 @@ object App extends App {
     val df_names = namesMap.toSeq.toDF("nameid", "name")
     df_names
   }
-//
-//  generatedNames(df).show()
-//
-//  var dfNames=generatedNames(df)
-//  df=df.join(dfNames,dfNames("nameid")===df("id"))
+
+  generatedNames(df).show()
+
+  var dfNames=generatedNames(df)
+  df=df.join(dfNames,dfNames("nameid")===df("id"))
 
 
   def getSummaryOfDescriptiveStatistics(df:DataFrame)={
