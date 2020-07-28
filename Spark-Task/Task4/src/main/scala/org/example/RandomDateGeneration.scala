@@ -20,7 +20,7 @@ object RandomDateGeneration extends App{
 
     var dates=new HashMap[String,String]
 
-    for(x<-1L to (size+10)) {
+    for(x <- 0 to size+1) {
       val from = LocalDate.of(1999, 1, 1)
       val toRecruited = LocalDate.of(2019, 7, 28)
       val toRetired = LocalDate.now()
@@ -62,6 +62,7 @@ object RandomDateGeneration extends App{
 
   firstDF.describe().show()
   secondDF.describe().show()
+
 
   var dates=random(size).toSeq
 
