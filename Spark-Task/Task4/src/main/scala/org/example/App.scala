@@ -49,11 +49,11 @@ object App extends App {
     val df_names = namesMap.toSeq.toDF("nameid", "name")
     df_names
   }
-
-  generatedNames(df).show()
-
-  var dfNames=generatedNames(df)
-  df=df.join(dfNames,dfNames("nameid")===df("id"))
+//
+//  generatedNames(df).show()
+//
+//  var dfNames=generatedNames(df)
+//  df=df.join(dfNames,dfNames("nameid")===df("id"))
 
 
   def getSummaryOfDescriptiveStatistics(df:DataFrame)={
@@ -61,23 +61,44 @@ object App extends App {
   }
 
   def meanOfGivenNumericColumn(df:DataFrame,colName:String)={
-    df.select(mean(colName)).show()
+    if(df.columns.contains(colName)) {
+      df.select(mean(colName)).show()
+    }else{
+      throw new Exception("Column in not present in the data frame")
+    }
   }
 
   def getMaxofGivenNumericColumn(df:DataFrame,colName:String)={
-    df.select(max(colName)).show()
+    if(df.columns.contains(colName)) {
+        df.select(max(colName)).show()
+    }else{
+      throw new Exception("Column in not present in the data frame")
+    }
   }
 
   def getMinOfGivenNumericColumn(df:DataFrame,colName:String)={
-    df.select(min(colName)).show()
+    if(df.columns.contains(colName)) {
+        df.select(min(colName)).show()
+    }else{
+    throw new Exception("Column in not present in the data frame")
+    }
   }
 
   def getCovarianceOfGivenTwoColumns(df:DataFrame,col1:String,col2:String): Double ={
-    return df.stat.cov(col1,col2)
+
+    if(df.columns.contains(col1)&&df.columns.contains(col2)) {
+      return df.stat.cov(col1, col2)
+    }else{
+      throw new Exception("Columns are not present in the data frame")
+    }
   }
 
   def getCorrelationBetweenGivenTwoColumns(df:DataFrame,col1:String,col2:String):Double={
-    return df.stat.corr(col1,col2)
+    if(df.columns.contains(col1)&&df.columns.contains(col2)) {
+      return df.stat.corr(col1,col2)
+    }else{
+      throw new Exception("Columns are not present in the data frame")
+    }
   }
 
   def getGenderWiseFrequeancyDistribution(df:DataFrame)={
@@ -85,7 +106,6 @@ object App extends App {
   }
 
   def getAgeWiseFrequenacyDistribution(df:DataFrame,age:Int)={
-
     var df2 = df.withColumn( "age",
       when(col("age").cast("int")>=age, lit(s"Above $age") )
         .otherwise(lit(s"Below $age"))
@@ -95,7 +115,11 @@ object App extends App {
   }
 
   def sortByGivenColumn(df:DataFrame,colName:String)={
-    df.orderBy(desc(colName)).show()
+    if(df.columns.contains(colName)) {
+      df.orderBy(desc(colName)).show()
+    }else{
+      throw new Exception("Column is not present in the data frame")
+    }
   }
 
 def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
@@ -109,18 +133,30 @@ def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
 
   def encodeGivenColumns(df:DataFrame,colName:String)={
 
-   var indexer= new StringIndexer().setInputCol(colName).setOutputCol("Indexed").fit(df).transform(df)
-    indexer.show()
+    if(df.columns.contains(colName)) {
+
+      var indexer = new StringIndexer().setInputCol(colName).setOutputCol("Indexed").fit(df).transform(df)
+      indexer.show()
+    }else{
+      throw new Exception("Column is not present in the data frame")
+    }
   }
 
   def getCrossTabulationForGivenColumns(df:DataFrame,col1:String,col2:String)={
-    df.stat.crosstab(col1, col2).show()
+    if(df.columns.contains(col1)&&df.columns.contains(col2)) {
+        df.stat.crosstab(col1, col2).show()
+    }else{
+      throw new Exception("Columns are not present in the data frame")
+    }
   }
 
   def assembledGivenColumnsIntoOne(df:DataFrame,col1:String,col2:String)={
-
-    var assembled = new VectorAssembler().setInputCols(Array(col1,col2)).setOutputCol("features").transform(df)
-    assembled.show()
+    if(df.columns.contains(col1)&&df.columns.contains(col2)) {
+        var assembled = new VectorAssembler().setInputCols(Array(col1,col2)).setOutputCol("features").transform(df)
+        assembled.show()
+    }else{
+      throw new Exception("Columns are not present in the data frame")
+    }
   }
 
 
@@ -132,9 +168,12 @@ def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
 
 
   def filterByGivenColumnAndValue(df:DataFrame,colName:String,value:Int)={
-
-    var df2=df.filter(col(colName).cast("int")>=value)
-    df2.show()
+    if(df.columns.contains(colName)) {
+      var df2 = df.filter(col(colName).cast("int") >= value)
+      df2.show()
+    }else{
+      throw new Exception("Column is not present in the data frame")
+    }
   }
 
   def getAverageSalaryByGender(df:DataFrame)={
@@ -161,13 +200,18 @@ def filterDetailsByGivenSalary(df:DataFrame,salary:Int): Unit ={
   }
 
   def ratioBetweenGivenColumnMinaAndMx(df:DataFrame,colName:String)={
-    var maxDf= df.select(max(colName)).withColumn("id",lit("1"))
-    var minDf = df.select(min(colName)).withColumn("id",lit("1"))
 
-    var ratio=maxDf.join(minDf,"id").withColumn("Ratio",col(s"max($colName)")-col(s"min($colName)"))
-    ratio.show()
+    if(df.columns.contains(colName)) {
+      var maxDf = df.select(max(colName)).withColumn("id", lit("1"))
+      var minDf = df.select(min(colName)).withColumn("id", lit("1"))
 
+      var ratio = maxDf.join(minDf, "id").withColumn("Ratio", col(s"max($colName)") - col(s"min($colName)"))
+      ratio.show()
+    }else{
+      throw new Exception("Column in not present in the d ata frame")
+    }
   }
+  
 }
 
 
