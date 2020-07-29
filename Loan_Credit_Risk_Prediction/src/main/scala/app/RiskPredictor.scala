@@ -7,6 +7,7 @@ import org.apache.spark.ml.feature.{Binarizer, VectorAssembler}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.types.{DoubleType, StructType}
 
 
 object RiskPredictor {
@@ -39,14 +40,43 @@ object RiskPredictor {
 
   def main(args: Array[String]): Unit = {
 
+//    Data Loading Defined Schema for the CSV
+    val schema = new StructType()
+      .add("creditability",DoubleType,true)
+      .add("balance",DoubleType,true)
+      .add("duration",DoubleType,true)
+      .add("history",DoubleType,true)
+      .add("purpose",DoubleType,true)
+      .add("amount",DoubleType,true)
+      .add("savings",DoubleType,true)
+      .add("employment",DoubleType,true)
+      .add("instPercent",DoubleType,true)
+      .add("sexMarried",DoubleType,true)
+      .add("guarantors",DoubleType,true)
+      .add("residenceDuration",DoubleType,true)
+      .add("assets",DoubleType,true)
+      .add("age",DoubleType,true)
+      .add("concCredit",DoubleType,true)
+      .add("apartment",DoubleType,true)
+      .add("credits",DoubleType,true)
+      .add("occupation",DoubleType,true)
+      .add("dependents",DoubleType,true)
+      .add("hasPhone",DoubleType,true)
+      .add("foreign",DoubleType,true)
+
+
     val sc = new SparkContext("local[*]","Loan Credit Risk Prediction")
     val sqlContext = new SQLContext(sc)
     import sqlContext.implicits._
 
 
-    val df = parseRDD(sc.textFile("D:\\Zone24x7\\Loan Credit Risk Prediction\\src\\main\\scala\\input\\germancredit.csv")).map(parseCredit).toDF().cache()
-    df.printSchema
+//    val df = parseRDD(sc.textFile("D:\\Zone24x7\\Loan Credit Risk Prediction\\src\\main\\scala\\input\\germancredit.csv")).map(parseCredit).toDF().cache()
+//    df.printSchema
 
+    val df = sqlContext.read.format("csv")
+      .option("header", "true")
+      .schema(schema)
+      .load("D:\\Zone24x7\\Loan Credit Risk Prediction\\src\\main\\scala\\input\\germancredit.csv")
 
 //    Extract Information From the Data Frame
     df.describe().show()
