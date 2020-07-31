@@ -9,7 +9,12 @@ import java.time.temporal.ChronoUnit.DAYS
 import scala.collection.immutable.HashMap
 import scala.util.Random
 
+
+
+
 object RandomDateGeneration extends App{
+
+
 
   val sc=new SparkContext("local[*]","Random Date Generation")
   val spark = SparkSession.builder().appName("Random Date Generation").getOrCreate()
@@ -53,16 +58,17 @@ object RandomDateGeneration extends App{
   var size:Int=100
 
   var df = (1 to size)
-    .map(id => (id.toLong))
-    .toDF("id")
+    .map(id => (id.toLong,Random.nextInt(10)))
+    .toDF("id","Number_Frequency")
 
   var firstDF = df.sample(false, 0.5)
 
   var secondDF = df.except(firstDF)
 
+  df.show(10)
+
   firstDF.describe().show()
   secondDF.describe().show()
-
 
   var dates=random(size).toSeq
 
@@ -71,10 +77,10 @@ object RandomDateGeneration extends App{
     .toDF("dateId","Recruited Date","Retired date")
 
   firstDF = firstDF.join(df1,firstDF("id")===df1("dateId"))
-  firstDF.take(20).foreach(println)
+  firstDF.show(20)
 
   secondDF = secondDF.join(df1,secondDF("id")===df1("dateId"))
-  secondDF.take(20).foreach(println)
+  secondDF.show(20)
 
 }
 
