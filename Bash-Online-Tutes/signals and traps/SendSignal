@@ -1,0 +1,3 @@
+#!/bin/bash
+pid=`cat pid`  # Read the pid
+kill -s INT $pid

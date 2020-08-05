@@ -1,0 +1,19 @@
+#!/bin/bash
+trap 'catch' ERR
+catch() {
+  echo "An error has occurred but we're going to eat it!!"
+}
+echo "Before bad command"
+badcommand
+echo "After bad command"
+
+
+echo -e "\n View Error Code"
+
+trap 'catch $? $LINENO' ERR
+catch() {
+  echo "Error $1 occurred on $2"
+}
+echo "Before bad command"
+badcommand
+echo "After bad command"

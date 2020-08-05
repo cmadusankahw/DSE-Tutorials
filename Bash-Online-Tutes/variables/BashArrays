@@ -1,0 +1,11 @@
+#!/bin/bash
+#Declare array with 4 elements
+ARRAY=( 'Yasas' 'Mahima' 'Kariyawasam')
+# get number of elements in the array
+names=${#ARRAY[@]}
+
+# echo each element in array 
+# for loop
+for (( i=0;i<$names;i++)); do
+    echo ${ARRAY[${i}]}
+done 

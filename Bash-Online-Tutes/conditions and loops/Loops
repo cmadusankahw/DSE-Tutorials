@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# bash for loop
+for f in $( ls /var/ ); do
+	echo $f
+done 
+
+echo -e "\n"
+
+#################################
+
+COUNT=6
+# bash while loop
+while [ $COUNT -gt 0 ]; do
+	echo Value of count is: $COUNT
+	let COUNT=COUNT-1
+done 
+
+echo -e "\n"
+
+##################################
+
+#!/bin/bash
+COUNT=0
+# bash until loop
+until [ $COUNT -gt 5 ]; do
+        echo Value of count is: $COUNT
+        let COUNT=COUNT+1
+done 
+
+

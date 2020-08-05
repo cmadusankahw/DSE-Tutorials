@@ -1,0 +1,14 @@
+#!/bin/bash
+        
+function do_stuff {
+   echo "I am doing stuff"
+   exit
+}
+
+trap do_stuff SIGINT
+
+while `true`
+do
+   echo "Waiting for a signal"
+   sleep 1
+done

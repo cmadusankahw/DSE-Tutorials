@@ -1,0 +1,14 @@
+#!/bin/bash
+# Declare array
+declare -a ARRAY
+
+ while read line; do 
+ 	ARRAY[$count]=$line
+    ((count++))
+  done < company.txt
+  
+echo Number of elements: ${#ARRAY[@]}
+
+echo ${ARRAY[@]}
+
+
