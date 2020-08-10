@@ -3,6 +3,8 @@ package org.example.sqlTask
 import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 
+import scala.collection.immutable.HashMap
+import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.util.Random
 
@@ -20,7 +22,8 @@ object SQLDataGenerator extends App {
   def generateOfferForEachLevels(recencyId : Int,monetaryId:Int,frequencyId:Int): Int ={
     var pair:List[Int] = List(recencyId,monetaryId,frequencyId)
     var pairs = generateOfferFactorials()
-    return pairs.indexOf(pair)
+//    Three More Offers available
+    return pairs.indexOf(pair)+3
 
   }
 
@@ -38,15 +41,20 @@ object SQLDataGenerator extends App {
 
    return pairs
   }
-  def generateFinalOffer(churnLevel:Int,recencyId : Int,monetaryId:Int,frequencyId:Int): String = {
+  def generateFinalOffer(churnLevel:Int,recencyId : Int,monetaryId:Int,frequencyId:Int): HashMap[String,Int]= {
 
     val offers = List("null", "Buy 1 Get 1", "Buy 1 Get 2", "Buy 1 Get 3")
+    var offerAndId = new HashMap[String, Int]()
 
     if (churnLevel != 0) {
-      return offers(churnLevel)
+
+      offerAndId = offerAndId+(offers(churnLevel)->churnLevel)
+      return offerAndId
     } else {
       var numItems: Int = generateOfferForEachLevels(recencyId,monetaryId,frequencyId)
-      return "Buy " + numItems + " get 1"
+      var offer = "Buy " + numItems + " get 1"
+      offerAndId = offerAndId+(offer->numItems)
+      return offerAndId
     }
   }
 
@@ -68,7 +76,6 @@ object SQLDataGenerator extends App {
        id =Random.nextInt(4)
    }
    return id
-
  }
 
   val recencyCategories = List("null","most recent","moderate","least recent")
@@ -79,9 +86,10 @@ object SQLDataGenerator extends App {
   var frequencyId=0
   var recencyId=0
   var monetaryId=0
+  var offerAndId = new HashMap[String, Int]()
 
   var df_for_unique_offer_for_each_churn_level = (1 to size)
-    .map(id => (id.toLong,{
+    .map(id => ({
       randomId = Random.nextInt(4)
       churnLevel(randomId)
     },{
@@ -93,12 +101,17 @@ object SQLDataGenerator extends App {
     },{
       frequencyId =generateRandomId(randomId)
       frequencyCategories(frequencyId)
-    },
-      generateFinalOffer(randomId,recencyId,monetaryId,frequencyId)
-    ,generateFinalOfferDescription(randomId,recencyId,monetaryId,frequencyId)))
-    .toDF("id","churn_level","recency_category","monetary_category","frequency_category","offer_name","offer_description")
+    },{
+      offerAndId = generateFinalOffer(randomId,recencyId,monetaryId,frequencyId)
+      offerAndId.toSeq(0)._1
+    }
+    ,generateFinalOfferDescription(randomId,recencyId,monetaryId,frequencyId)
+    ,offerAndId.toSeq(0)._2))
+    .toDF("churn_level","recency_category","monetary_category","frequency_category","offer_name","offer_description","offer_id")
 
-
+  
   df_for_unique_offer_for_each_churn_level.show(20)
+  df_for_unique_offer_for_each_churn_level.groupBy().max("offer_id").show()
+
   
 }
