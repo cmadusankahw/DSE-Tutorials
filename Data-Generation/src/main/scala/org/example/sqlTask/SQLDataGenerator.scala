@@ -23,7 +23,7 @@ object SQLDataGenerator extends App {
     var pair:List[Int] = List(recencyId,monetaryId,frequencyId)
     var pairs = generateOfferFactorials()
 //    Three More Offers available
-    return pairs.indexOf(pair)+3
+    return pairs.indexOf(pair)+4
 
   }
 
@@ -109,7 +109,7 @@ object SQLDataGenerator extends App {
     ,offerAndId.toSeq(0)._2))
     .toDF("churn_level","recency_category","monetary_category","frequency_category","offer_name","offer_description","offer_id")
 
-  
+
   df_for_unique_offer_for_each_churn_level.show(20)
   df_for_unique_offer_for_each_churn_level.groupBy().max("offer_id").show()
 
