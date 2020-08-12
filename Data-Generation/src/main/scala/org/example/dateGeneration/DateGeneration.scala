@@ -91,7 +91,7 @@ object DateGeneration extends App {
    val date = rad.toLocalDateTime
    var hour = -1
    while (hour<0||hour>24){
-     hour = getPoissonHours(0.1.toLong)
+     hour = getPoissonHours(6.2.toLong)
    }
    date.withHour(hour)
    return date
@@ -117,5 +117,33 @@ object DateGeneration extends App {
   .show(10)
 
 
+  ////////////////// Check Poisson Distribution of Hours in a same Day //////////////////
+
+  var defaultDay:LocalDateTime = LocalDateTime.now()
+
+  var sameDayHourlyDistribution = (1 to 100)
+    .map(id => (id.toLong,
+
+      {
+        var hour = -1
+        while (hour<0||hour>24){
+          hour = getPoissonHours(6.2.toLong)
+        }
+        defaultDay=defaultDay.withHour(hour)
+        defaultDay.format(formatter)
+        },
+
+      {var tomorrow = generateTomorrow(defaultDay)
+        tomorrow.format(formatter)},
+
+      {var weekTime = generateWeekTime(defaultDay)
+        weekTime.format(formatter)},
+
+      {var monthTime = generateMonthTime(defaultDay)
+        monthTime.format(formatter)}))
+
+    .toDF("Id","Current-Time","Tomorrow-Time","Week-Time","Month-Time")
+
+   sameDayHourlyDistribution.show(20)
 
 }
