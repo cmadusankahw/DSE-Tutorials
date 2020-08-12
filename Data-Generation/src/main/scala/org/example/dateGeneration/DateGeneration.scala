@@ -8,13 +8,6 @@ import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
 
 import org.apache.spark.mllib.stat._
-import org.example.Distributions.{density2, numbers}
-import org.example.NormalDistributedData.df1
-import vegas.sparkExt.VegasSpark
-import vegas.{Bar, Nom, Quant, Vegas}
-
-import scala.::
-import scala.util.Random
 
 
 object DateGeneration extends App {
@@ -123,16 +116,6 @@ object DateGeneration extends App {
 
   .show(10)
 
-  val size:Int=100
 
-  var hours = (1 to size)
-    .map(id => getPoissonHours(40L).toDouble).toSeq
-
-
-  val rdd = sc.parallelize(hours)
-
-  var density = new KernelDensity().setBandwidth(6).setSample(rdd)
-  val densities2= density.estimate(Array(1,5,10,15,20,24))
-  densities2.foreach(println)
 
 }
