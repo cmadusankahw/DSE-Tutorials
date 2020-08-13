@@ -119,16 +119,25 @@ object DateGeneration extends App {
 
   ////////////////// Check Poisson Distribution of Hours in a same Day //////////////////
 
-  var defaultDay:LocalDateTime = LocalDateTime.now()
+//  var defaultDay:LocalDateTime = LocalDateTime.now()
+
+  var defaultDay:LocalDateTime = generatedWithPoissonHours()
+  var count = 0;
 
   var sameDayHourlyDistribution = (1 to 100)
     .map(id => (id.toLong,
 
       {
+//        Create 10 Dates With Same Day With Poisson Distributed Hours
+        if(count>10){
+          count = 0
+          defaultDay = generatedWithPoissonHours()
+        }
         var hour = -1
         while (hour<0||hour>24){
-          hour = getPoissonHours(6.2.toLong)
+          hour = getPoissonHours(10.2.toLong)
         }
+        count +=1
         defaultDay=defaultDay.withHour(hour)
         defaultDay.format(formatter)
         },
