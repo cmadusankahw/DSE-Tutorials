@@ -18,28 +18,32 @@ object DateGeneration extends App {
   import sqlContext.implicits._
 
 
-  def generateCurrentDate(): LocalDateTime ={
-    val offset = Timestamp.valueOf("2000-01-01 00:00:00").getTime
-    val end = Timestamp.valueOf("2020-08-12 00:00:00").getTime
-    val diff = end - offset + 1
-    val rad = new Timestamp(offset + (Math.random()* diff).toLong)
+  def generateCurrentDateToTomorrow(): LocalDateTime ={
+    val today =Timestamp.valueOf(LocalDateTime.now()).getTime
+    val tomorrow = Timestamp.valueOf(LocalDateTime.now().plusDays(1)).getTime
+    val diff = tomorrow - today + 1
+    val rad = new Timestamp(today + (Math.random()* diff).toLong)
     val date = rad.toLocalDateTime
     return date
   }
 
-  def generateTomorrow(currentDate:LocalDateTime):LocalDateTime={
-    var tomorrow = currentDate.plusDays(1)
-    return tomorrow
+
+  def generateCurrentDateToWeekTime():LocalDateTime={
+    val today =Timestamp.valueOf(LocalDateTime.now()).getTime
+    val week = Timestamp.valueOf(LocalDateTime.now().plusWeeks(1)).getTime
+    val diff = week - today + 1
+    val rad = new Timestamp(today + (Math.random()* diff).toLong)
+    val date = rad.toLocalDateTime
+    return date
   }
 
-  def generateWeekTime(currentDate:LocalDateTime):LocalDateTime={
-    var weekTime = currentDate.plusWeeks(1)
-    return weekTime
-  }
-
-  def generateMonthTime(currentDate:LocalDateTime):LocalDateTime={
-    var monthTime =currentDate.plusMonths(1)
-    return monthTime
+  def generateCurrentDateToMonthTime():LocalDateTime={
+    val today =Timestamp.valueOf(LocalDateTime.now()).getTime
+    val month = Timestamp.valueOf(LocalDateTime.now().plusMonths(1)).getTime
+    val diff = month - today + 1
+    val rad = new Timestamp(today + (Math.random()* diff).toLong)
+    val date = rad.toLocalDateTime
+    return date
   }
 
   val formatter = DateTimeFormatter.ISO_DATE_TIME
@@ -48,19 +52,16 @@ object DateGeneration extends App {
   var df = (1 to 100)
     .map(id => (id.toLong,
 
-      {currentDate = generateCurrentDate()
+      {currentDate = generateCurrentDateToTomorrow()
       currentDate.format(formatter)},
 
-      {var tomorrow = generateTomorrow(currentDate)
-      tomorrow.format(formatter)},
-
-      {var weekTime = generateWeekTime(currentDate)
+      {var weekTime = generateCurrentDateToWeekTime()
         weekTime.format(formatter)},
 
-      {var monthTime = generateMonthTime(currentDate)
+      {var monthTime = generateCurrentDateToMonthTime()
       monthTime.format(formatter)}))
 
-      .toDF("Id","Current-Time","Tomorrow-Time","Week-Time","Month-Time")
+      .toDF("Id","Current-Tomorrow","Current-Week","Current-Month")
 
   df.show(10)
 
@@ -82,76 +83,45 @@ object DateGeneration extends App {
     k - 1
   }
 
+  ////////////////// Check Poisson Distribution of Hours  //////////////////
 
- def generatedWithPoissonHours(): LocalDateTime ={
-   val offset = Timestamp.valueOf("2000-01-01 00:00:00").getTime
-   val end = Timestamp.valueOf("2020-08-12 00:00:00").getTime
-   val diff = end - offset + 1
-   val rad = new Timestamp(offset + (Math.random() * diff).toLong)
-   val date = rad.toLocalDateTime
-   var hour = -1
-   while (hour<0||hour>24){
-     hour = getPoissonHours(6.2.toLong)
-   }
-   date.withHour(hour)
-   return date
- }
-
-  var dfWithPoissonDistribution = (1 to 100)
-    .map(id => (id.toLong,
-
-      {currentDate = generateCurrentDate()
-        currentDate.format(formatter)},
-
-      {var tomorrow = generateTomorrow(currentDate)
-        tomorrow.format(formatter)},
-
-      {var weekTime = generateWeekTime(currentDate)
-        weekTime.format(formatter)},
-
-      {var monthTime = generateMonthTime(currentDate)
-        monthTime.format(formatter)}))
-
-    .toDF("Id","Current-Time","Tomorrow-Time","Week-Time","Month-Time")
-
-  .show(10)
-
-
-  ////////////////// Check Poisson Distribution of Hours in a same Day //////////////////
-
-//  var defaultDay:LocalDateTime = LocalDateTime.now()
-
-  var defaultDay:LocalDateTime = generatedWithPoissonHours()
-  var count = 0;
+  var defaultDay:LocalDateTime = null
+  var weekTime:LocalDateTime = null
+  var monthTime:LocalDateTime=null
 
   var sameDayHourlyDistribution = (1 to 100)
     .map(id => (id.toLong,
-
       {
-//        Create 10 Dates With Same Day With Poisson Distributed Hours
-        if(count>10){
-          count = 0
-          defaultDay = generatedWithPoissonHours()
-        }
+        defaultDay = generateCurrentDateToTomorrow()
         var hour = -1
         while (hour<0||hour>24){
           hour = getPoissonHours(10.2.toLong)
         }
-        count +=1
         defaultDay=defaultDay.withHour(hour)
         defaultDay.format(formatter)
         },
 
-      {var tomorrow = generateTomorrow(defaultDay)
-        tomorrow.format(formatter)},
-
-      {var weekTime = generateWeekTime(defaultDay)
+      {
+        weekTime = generateCurrentDateToWeekTime()
+        var hour = -1
+        while (hour<0||hour>24){
+          hour = getPoissonHours(10.2.toLong)
+        }
+        weekTime = weekTime.withHour(hour)
         weekTime.format(formatter)},
 
-      {var monthTime = generateMonthTime(defaultDay)
-        monthTime.format(formatter)}))
-
-    .toDF("Id","Current-Time","Tomorrow-Time","Week-Time","Month-Time")
+      {
+        monthTime = generateCurrentDateToMonthTime()
+        var hour = -1
+        while (hour<0||hour>24){
+          hour = getPoissonHours(10.2.toLong)
+        }
+        monthTime = monthTime.withHour(hour)
+        monthTime.format(formatter)
+      }
+      )
+    )
+    .toDF("Id","Current-Tomorrow","Current-Week","Current-Month")
 
    sameDayHourlyDistribution.show(20)
 
