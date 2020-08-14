@@ -7,10 +7,12 @@ import org.apache.spark.sql.SparkSession
 import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
 
+import org.apache.spark.sql.functions._
 import org.apache.spark.mllib.stat._
+import org.apache.spark.sql.expressions.Window
 import org.example.NormalDistributedData.df1
 import vegas.sparkExt.VegasSpark
-import vegas.{Bar, Nom, Nominal, Quant, Quantitative, Vegas}
+import vegas.{Bar, Nom, Nominal, Point, Quant, Quantitative, Vegas}
 
 
 object DateGeneration extends App {
@@ -127,29 +129,33 @@ object DateGeneration extends App {
 
    sameDayHourlyDistribution.show(20)
 
-  
-  var distributionOfTheHour = (1  to 100)
-    .map(id => (id.toLong,
-      {
-        var hour = -1
-        while (hour<0||hour>23){
-          hour = getPoissonHours(10.2.toLong)
-        }
-       hour
-      }
-    )
-    )
-    .toDF("Id","Hour")
 
-  distributionOfTheHour.show(10)
+  var current_tomorrow = Vegas("current-tomorrow-plot")
+    .withDataFrame(sameDayHourlyDistribution.limit(20))
+    .encodeX("Id",Nominal)
+    .encodeY("Current-Tomorrow")
+    .mark(Point)
 
-  val plot = Vegas("Hour-Distribution").
-    withDataFrame(distributionOfTheHour).
-    encodeX("Hour",Nominal).
-    encodeY("Hour",Quantitative).
-    mark(Bar)
+  println(current_tomorrow.toJson)
 
-  println(plot.toJson)
+
+  var current_week = Vegas("current-week-plot")
+    .withDataFrame(sameDayHourlyDistribution.limit(20))
+    .encodeX("Id",Nominal)
+    .encodeY("Current-Week")
+    .mark(Point)
+
+  println(current_week.toJson)
+
+
+  var current_month = Vegas("current-month-plot")
+    .withDataFrame(sameDayHourlyDistribution.limit(20))
+    .encodeX("Id",Nominal)
+    .encodeY("Current-Month")
+    .mark(Point)
+
+  println(current_month.toJson)
+
   //  Paste the generated JSON in to https://vega.github.io/editor/#/edited
 
 }
