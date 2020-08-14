@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter
 import org.apache.spark.sql.functions._
 import org.apache.spark.mllib.stat._
 import org.apache.spark.sql.expressions.Window
-import org.example.NormalDistributedData.df1
 import vegas.sparkExt.VegasSpark
 import vegas.{Bar, Nom, Nominal, Point, Quant, Quantitative, Vegas}
 
