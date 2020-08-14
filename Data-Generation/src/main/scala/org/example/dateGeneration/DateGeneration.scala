@@ -8,6 +8,9 @@ import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
 
 import org.apache.spark.mllib.stat._
+import org.example.NormalDistributedData.df1
+import vegas.sparkExt.VegasSpark
+import vegas.{Bar, Nom, Nominal, Quant, Quantitative, Vegas}
 
 
 object DateGeneration extends App {
@@ -47,12 +50,11 @@ object DateGeneration extends App {
   }
 
   val formatter = DateTimeFormatter.ISO_DATE_TIME
-  var currentDate:LocalDateTime =null
-
+  
   var df = (1 to 100)
     .map(id => (id.toLong,
 
-      {currentDate = generateCurrentDateToTomorrow()
+      {var currentDate = generateCurrentDateToTomorrow()
       currentDate.format(formatter)},
 
       {var weekTime = generateCurrentDateToWeekTime()
@@ -94,7 +96,7 @@ object DateGeneration extends App {
       {
         defaultDay = generateCurrentDateToTomorrow()
         var hour = -1
-        while (hour<0||hour>24){
+        while (hour<0||hour>23){
           hour = getPoissonHours(10.2.toLong)
         }
         defaultDay=defaultDay.withHour(hour)
@@ -104,7 +106,7 @@ object DateGeneration extends App {
       {
         weekTime = generateCurrentDateToWeekTime()
         var hour = -1
-        while (hour<0||hour>24){
+        while (hour<0||hour>23){
           hour = getPoissonHours(10.2.toLong)
         }
         weekTime = weekTime.withHour(hour)
@@ -113,7 +115,7 @@ object DateGeneration extends App {
       {
         monthTime = generateCurrentDateToMonthTime()
         var hour = -1
-        while (hour<0||hour>24){
+        while (hour<0||hour>23){
           hour = getPoissonHours(10.2.toLong)
         }
         monthTime = monthTime.withHour(hour)
@@ -124,5 +126,30 @@ object DateGeneration extends App {
     .toDF("Id","Current-Tomorrow","Current-Week","Current-Month")
 
    sameDayHourlyDistribution.show(20)
+
+  
+  var distributionOfTheHour = (1  to 100)
+    .map(id => (id.toLong,
+      {
+        var hour = -1
+        while (hour<0||hour>23){
+          hour = getPoissonHours(10.2.toLong)
+        }
+       hour
+      }
+    )
+    )
+    .toDF("Id","Hour")
+
+  distributionOfTheHour.show(10)
+
+  val plot = Vegas("Hour-Distribution").
+    withDataFrame(distributionOfTheHour).
+    encodeX("Hour",Nominal).
+    encodeY("Hour",Quantitative).
+    mark(Bar)
+
+  println(plot.toJson)
+  //  Paste the generated JSON in to https://vega.github.io/editor/#/edited
 
 }
