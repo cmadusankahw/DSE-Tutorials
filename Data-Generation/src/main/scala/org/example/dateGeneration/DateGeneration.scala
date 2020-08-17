@@ -6,10 +6,8 @@ import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 import java.time.{LocalDate, LocalDateTime}
 import java.time.format.DateTimeFormatter
+import org.apache.spark.mllib.random.PoissonGenerator
 
-import org.apache.spark.sql.functions._
-import org.apache.spark.mllib.stat._
-import org.apache.spark.sql.expressions.Window
 import vegas.sparkExt.VegasSpark
 import vegas.{Bar, Nom, Nominal, Point, Quant, Quantitative, Vegas}
 
@@ -23,6 +21,8 @@ object DateGeneration extends App {
 
 
   def generateCurrentDateToTomorrow(): LocalDateTime ={
+
+
     val today =Timestamp.valueOf(LocalDateTime.now()).getTime
     val tomorrow = Timestamp.valueOf(LocalDateTime.now().plusDays(1)).getTime
     val diff = tomorrow - today + 1
@@ -87,39 +87,46 @@ object DateGeneration extends App {
   }
 
   ////////////////// Check Poisson Distribution of Hours  //////////////////
-
-  var defaultDay:LocalDateTime = null
-  var weekTime:LocalDateTime = null
-  var monthTime:LocalDateTime=null
-
+  
   var sameDayHourlyDistribution = (1 to 100)
     .map(id => (id.toLong,
       {
-        defaultDay = generateCurrentDateToTomorrow()
-        var hour = -1
-        while (hour<0||hour>23){
-          hour = getPoissonHours(10.2.toLong)
+        var defaultDay:LocalDateTime = LocalDateTime.now().minusDays(1)
+        while (defaultDay.isBefore(LocalDateTime.now())||defaultDay.isAfter(LocalDateTime.now().plusDays(1))) {
+
+          defaultDay = generateCurrentDateToTomorrow()
+          var hour = -1
+          while (hour < 0 || hour > 23) {
+            hour = getPoissonHours(10.2.toLong)
+          }
+           defaultDay = defaultDay.withHour(hour)
         }
-        defaultDay=defaultDay.withHour(hour)
         defaultDay.format(formatter)
+//        defaultDay = LocalDateTime.now().minusDays(1)
         },
 
       {
-        weekTime = generateCurrentDateToWeekTime()
-        var hour = -1
-        while (hour<0||hour>23){
-          hour = getPoissonHours(10.2.toLong)
+        var weekTime:LocalDateTime = LocalDateTime.now().minusDays(1)
+        while (weekTime.isBefore(LocalDateTime.now())||weekTime.isAfter(LocalDateTime.now().plusWeeks(1))) {
+          weekTime = generateCurrentDateToWeekTime()
+          var hour = -1
+          while (hour < 0 || hour > 23) {
+            hour = getPoissonHours(10.2.toLong)
+          }
+          weekTime = weekTime.withHour(hour)
         }
-        weekTime = weekTime.withHour(hour)
         weekTime.format(formatter)},
 
       {
-        monthTime = generateCurrentDateToMonthTime()
-        var hour = -1
-        while (hour<0||hour>23){
-          hour = getPoissonHours(10.2.toLong)
+        var monthTime:LocalDateTime= LocalDateTime.now().minusDays(1)
+        while (monthTime.isBefore(LocalDateTime.now())||monthTime.isAfter(LocalDateTime.now().plusMonths(1))) {
+          monthTime = generateCurrentDateToMonthTime()
+          var hour = -1
+          while (hour < 0 || hour > 23) {
+            hour = getPoissonHours(10.2.toLong)
+          }
+          monthTime = monthTime.withHour(hour)
         }
-        monthTime = monthTime.withHour(hour)
         monthTime.format(formatter)
       }
       )
