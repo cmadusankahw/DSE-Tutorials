@@ -4,6 +4,10 @@ import org.scalatest._
 
 class FlatSpecTest extends FlatSpec  {
 
+import org.scalatest.FlatSpec
+
+object FlatSpecTest  extends FlatSpec  {
+  def main(args: Array[String]): Unit = {
     "An empty List" should "have size 0" in {
       assert(List.empty.size == 0)
     }
@@ -15,4 +19,5 @@ class FlatSpecTest extends FlatSpec  {
       }
     }
 
+  }
 }
