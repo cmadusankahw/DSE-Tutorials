@@ -1,5 +1,9 @@
 package Spark_test.flatSpec
 
+import org.scalatest._
+
+class FlatSpecTest extends FlatSpec  {
+
 import org.scalatest.FlatSpec
 
 object FlatSpecTest  extends FlatSpec  {
@@ -14,5 +18,6 @@ object FlatSpecTest  extends FlatSpec  {
         emptyList(1)
       }
     }
+
   }
 }
